@@ -1,62 +1,69 @@
-window.addEventListener('load', () => {
-	const form = document.querySelector("#new-task-form");
-	const input = document.querySelector("#new-task-input");
-	const list_el = document.querySelector("#tasks");
+const form = document.querySelector("#new-task-form");
+const input = document.querySelector("#new-task-input");
+const taskContainer = document.querySelector("#tasks");
+const errorText = document.querySelector("#error-text")
 
-	form.addEventListener('submit', (e) => {
-		e.preventDefault();
+const createElementWithClass = (elementType, className) => {
+	const currentElement = document.createElement(elementType)
+	currentElement.classList.add(className)
+	return currentElement
+}
+	
+form.addEventListener('submit', (e) => {
+	e.preventDefault();
 
-		const task = input.value;
+	const task = input.value;
 
-		const task_el = document.createElement('div');
-		task_el.classList.add('task');
+	if (task.length < 1) {
+		errorText.style.display = "flex";
+		return
+	} else {
+		errorText.style.display = "none";
+	}
 
-		const task_content_el = document.createElement('div');
-		task_content_el.classList.add('content');
+	const taskDiv = createElementWithClass('div', 'task')
 
-		task_el.appendChild(task_content_el);
+	const taskText = createElementWithClass('div', 'content')
 
-		const task_input_el = document.createElement('input');
-		task_input_el.classList.add('text');
-		task_input_el.type = 'text';
-		task_input_el.value = task;
-		task_input_el.setAttribute('readonly', 'readonly');
+	taskDiv.appendChild(taskText);
 
-		task_content_el.appendChild(task_input_el);
+	const taskInput = createElementWithClass('input', 'text')
+	taskInput.type = 'text';
+	taskInput.value = task;
+	taskInput.setAttribute('readonly', 'readonly');
 
-		const task_actions_el = document.createElement('div');
-		task_actions_el.classList.add('actions');
-		
-		const task_edit_el = document.createElement('button');
-		task_edit_el.classList.add('edit');
-		task_edit_el.innerText = 'Edit';
+	taskText.appendChild(taskInput);
 
-		const task_delete_el = document.createElement('button');
-		task_delete_el.classList.add('delete');
-		task_delete_el.innerText = 'Delete';
+	const taskActions = createElementWithClass('div', 'actions')
+	
+	const editButton = createElementWithClass('button', 'edit')
+	editButton.innerText = 'Edit';
 
-		task_actions_el.appendChild(task_edit_el);
-		task_actions_el.appendChild(task_delete_el);
+	const deleteButton = createElementWithClass('button', 'delete')
+	deleteButton.innerText = 'Delete';
 
-		task_el.appendChild(task_actions_el);
+	taskActions.appendChild(editButton);
+	taskActions.appendChild(deleteButton);
 
-		list_el.appendChild(task_el);
+	taskDiv.appendChild(taskActions);
 
-		input.value = '';
+	taskContainer.appendChild(taskDiv);
 
-		task_edit_el.addEventListener('click', (e) => {
-			if (task_edit_el.innerText.toLowerCase() == "edit") {
-				task_edit_el.innerText = "Save";
-				task_input_el.removeAttribute("readonly");
-				task_input_el.focus();
-			} else {
-				task_edit_el.innerText = "Edit";
-				task_input_el.setAttribute("readonly", "readonly");
-			}
-		});
+	input.value = '';
 
-		task_delete_el.addEventListener('click', (e) => {
-			list_el.removeChild(task_el);
-		});
+	editButton.addEventListener('click', (e) => {
+		if (editButton.innerText.toLowerCase() === "edit") {
+			editButton.innerText = "Save";
+			taskInput.removeAttribute("readonly");
+			taskInput.focus();
+		} else {
+			editButton.innerText = "Edit";
+			taskInput.setAttribute("readonly", "readonly");
+		}
+	});
+
+	deleteButton.addEventListener('click', (e) => {
+		taskContainer.removeChild(taskDiv);
 	});
 });
+

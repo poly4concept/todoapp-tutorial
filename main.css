@@ -11,7 +11,7 @@
 * {
 	margin: 0;
 	box-sizing: border-box;
-	font-family: "Fira sans", sans-serif;
+	font-family: "Outfit", sans-serif;
 }
 
 body {
@@ -32,12 +32,13 @@ header {
 header h1{ 
 	font-size: 2.5rem;
 	font-weight: 300;
-	color: var(--grey);
+	text-align: center;
+	color: white;
 	margin-bottom: 1rem;
 }
 
 #new-task-form {
-	display: flex;;
+	display: flex;
 }
 
 input, button {
@@ -62,12 +63,15 @@ input, button {
 }
 
 #new-task-submit {
-	color: var(--pink);
+	padding: 10px 15px;
+	color: white;
 	font-size: 1.25rem;
-	font-weight: 700;
-	background-image: linear-gradient(to right, var(--pink), var(--purple));
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
+	font-weight: 500;
+	border-radius: 5px;
+	background: #D467EF;
+	background: -webkit-radial-gradient(center, #D467EF, #F413CB);
+	background: -moz-radial-gradient(center, #D467EF, #F413CB);
+	background: radial-gradient(ellipse at center, #D467EF, #F413CB);
 	cursor: pointer;
 	transition: 0.4s;
 }
@@ -78,6 +82,12 @@ input, button {
 
 #new-task-submit:active {
 	opacity: 0.6;
+}
+
+#error-text{
+	display: none;
+	margin-top: 10px;
+	color:red;
 }
 
 main {
@@ -147,10 +157,22 @@ main {
 
 .task .actions .edit {
 	background-image: linear-gradient(to right, var(--pink), var(--purple));
-	-webkit-background-clip: text;
+	background-clip: text;
+  	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 }
 
 .task .actions .delete {
 	color: crimson;
+}
+
+/* for smaller screen */
+@media only screen and (max-width: 600px) {
+  #new-task-form {
+    flex-direction: column;
+  }
+  #new-task-submit{
+	margin-top: 10px;
+	max-width: fit-content;
+  }
 }
